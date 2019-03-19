@@ -5,7 +5,7 @@ server:
 spring:
   datasource:
     username: root
-    password: 19960130
+    password:
     max-idle: 10
     min-idle: 5
     initial-size: 5
@@ -13,12 +13,10 @@ spring:
     max-wait: 10000
     url: jdbc:mysql://localhost:3306/clnews?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8
 
-
 mybatis:
   mapper-locations: classpath:mybatis/*.xml
 
-#参数配置,直接在 controller 读出
-com:
-  clnews:
-    s1: "欢迎"
-    s2: "来到这"
+news:
+  toutiao:
+    main_url: https://www.toutiao.com
+    news_hot_url: https://www.toutiao.com/ch/news_hot/
