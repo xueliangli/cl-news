@@ -1,12 +1,12 @@
 package com.clnews.constant;
 
 /**
- * Created with cl-news
- * Created By lxc
- * Date: 2019-03-18
- *
- * @author lxc
- */
+ * @program: cl-news
+ * @description:
+ * @analysis:
+ * @author: 李学亮    email: 18222027300@163.com
+ * @create: 2019-03-19 14:11
+ **/
 public class Constant {
 
     public static final String HTTPS_PREFIX = "https:";
@@ -28,6 +28,4 @@ public class Constant {
     public static final int START =  0;
 
     public static final int END =  5;
-
-
 }

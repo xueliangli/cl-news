@@ -1,6 +1,7 @@
 package com.clnews.processor;
 
 import com.clnews.domain.News;
+import com.clnews.utils.SslUtils;
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
@@ -10,12 +11,12 @@ import org.jsoup.nodes.Document;
 import java.util.List;
 
 /**
- * Created with cl-news
- * Created By lxc
- * Date: 2019-03-18
- *
- * @author lxc
- */
+ * @program: cl-news
+ * @description: 统一抽象拉取新闻点的接口
+ * @analysis:
+ * @author: 李学亮    email: 18222027300@163.com
+ * @create: 2019-03-19 14:33
+ **/
 public abstract class NewsPuller {
 
     private static final int TIME_OUT = 10000;
@@ -33,7 +34,7 @@ public abstract class NewsPuller {
      * @return
      * @throws Exception
      */
-    public Document getHtmlFromUrl(String url, boolean useHtmlUnit) throws Exception {
+    Document getHtmlFromUrl(String url, boolean useHtmlUnit) throws Exception {
         //模拟火狐浏览器
         if (!useHtmlUnit) {
             return Jsoup.connect(url).userAgent("Mozilla/4.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0)").get();
@@ -47,6 +48,8 @@ public abstract class NewsPuller {
             webClient.getOptions().setThrowExceptionOnFailingStatusCode(false);
             webClient.getOptions().setTimeout(TIME_OUT);
             try {
+                //解决站点不信任
+                SslUtils.ignoreSsl();
                 HtmlPage htmlPage = webClient.getPage(url);
                 webClient.waitForBackgroundJavaScript(TIME_OUT);
                 String htmlString = htmlPage.asXml();
@@ -59,5 +62,4 @@ public abstract class NewsPuller {
             }
         }
     }
-
 }

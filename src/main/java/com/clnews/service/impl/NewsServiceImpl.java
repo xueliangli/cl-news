@@ -16,11 +16,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 /**
- * Created with cl-news
- * Created By lxc
- * Date: 2019-03-18
+ * 使用该注解 spring 可以将此类扫描为服务
  *
- * @author lxc
+ * @author 李学亮
  */
 @Service
 public class NewsServiceImpl implements NewsService {

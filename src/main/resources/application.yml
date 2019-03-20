@@ -5,18 +5,20 @@ server:
 spring:
   datasource:
     username: root
-    password:
+    password: 19960130
     max-idle: 10
     min-idle: 5
     initial-size: 5
     driver-class-name: com.mysql.jdbc.Driver
     max-wait: 10000
-    url: jdbc:mysql://localhost:3306/clnews?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8
+    url: jdbc:mysql://39.105.124.48:3306/clnews?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8
 
 mybatis:
   mapper-locations: classpath:mybatis/*.xml
 
 news:
   toutiao:
+    # 头条主网页地址
     main_url: https://www.toutiao.com
+    # 头条热点新闻地址
     news_hot_url: https://www.toutiao.com/ch/news_hot/

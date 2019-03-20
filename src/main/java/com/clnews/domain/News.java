@@ -4,20 +4,36 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * Created with cl-news
- * Created By lxc
- * Date: 2019-03-18
- *
- * @author lxc
- */
+ * @program: cl-news
+ * @description: 新闻实体
+ * @analysis:
+ * @author: 李学亮    email: 18222027300@163.com
+ * @create: 2019-03-19 14:24
+ **/
 public class News implements Serializable {
-
+    /**
+     * @description: 实现序列化的 id todo：有什么作用
+     */
     private static final long serialVersionUID = 7993799811820966212L;
-
+    /**
+     * @description: 名片
+     */
     private Long id;
+    /**
+     * @description: 来源
+     */
     private String source;
+    /**
+     * @description: 来源名称
+     */
     private String sourceName;
+    /**
+     * @description: 标题
+     */
     private String title;
+    /**
+     * @description: 内容
+     */
     private String content;
     private String contentUrl;
     private String imageUrl;

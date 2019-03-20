@@ -2,6 +2,7 @@ package com.clnews.processor;
 
 import com.clnews.domain.News;
 import com.clnews.enums.SourceEnum;
+import com.clnews.utils.SslUtils;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.apache.commons.lang3.StringUtils;
@@ -22,12 +23,12 @@ import java.util.regex.Pattern;
 import static com.clnews.constant.Constant.*;
 
 /**
- * Created with cl-news
- * Created By lxc
- * Date: 2019-03-18
- *
- * @author lxc
- */
+ * @program: cl-news
+ * @description: 拉取头条新闻的实现代码
+ * @analysis:
+ * @author: 李学亮    email: 18222027300@163.com
+ * @create: 2019-03-19 14:31
+ **/
 @Component("toutiaoNewsPuller")
 public class ToutiaoNewsPuller extends NewsPuller {
 
@@ -41,9 +42,11 @@ public class ToutiaoNewsPuller extends NewsPuller {
 
     @Override
     public List<News> pullNews() {
+        //打印日志信息
         logger.info("【今日头条】开始拉取今日头条热门新闻！");
         Document document;
         try {
+            //1、通过 url 获取 html
             document = getHtmlFromUrl(newsHotUrl, true);
         } catch (Exception e) {
             logger.error("【今日头条】获取今日头条热门新闻主页失败！");
@@ -54,6 +57,8 @@ public class ToutiaoNewsPuller extends NewsPuller {
             logger.info("【今日头条】获取今日头条热门新闻主页内容为空！");
             return null;
         }
+
+        //2、解析 html 页面并将各部分存放到 news 实体相应的字段内
         Map<String, News> newsMap = Maps.newHashMap();
         Date now = new Date();
         Elements elements = document.select("a[href~=/group/.*]:not(.comment)");
@@ -87,15 +92,20 @@ public class ToutiaoNewsPuller extends NewsPuller {
         logger.info("【今日头条】今日头条热门新闻标题拉取完成!");
 
         logger.info("【今日头条】开始拉今日头条取热门新闻内容...");
+        //3、将信息存放在 map 中
         newsMap.values().parallelStream().forEach(news -> {
             logger.info("【今日头条】===================={}====================", news.getTitle());
             Document contentHtml;
             try {
+                //解决站点不信任
+                SslUtils.ignoreSsl();
                 contentHtml = getHtmlFromUrl(news.getContentUrl(), true);
             } catch (Exception e) {
                 logger.error("【今日头条】获取新闻《{}》内容失败！", news.getTitle());
                 return;
             }
+            //todo:空指针异常;缺少安全证书时出现的异常后自动消失
+            //4、通过正则表达式对 script 标签进行解析
             Elements scripts = contentHtml.getElementsByTag(ELEMENTS_SCRIPT);
             scripts.forEach(script -> {
                 String regex = "articleInfo: \\{\\s*[\\n\\r]*\\s*title: '.*',\\s*[\\n\\r]*\\s*content: '(.*)',";
@@ -120,6 +130,7 @@ public class ToutiaoNewsPuller extends NewsPuller {
             return null;
         }
 
+        //5、将获得数据以 list 集合形式返回
         List<News> newsList = Lists.newArrayList();
         newsMap.forEach((k, v) -> {
             newsList.add(v);

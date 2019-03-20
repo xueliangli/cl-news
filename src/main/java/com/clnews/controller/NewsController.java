@@ -14,16 +14,19 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Map;
 
 /**
- * Created with cl-news
- * Created By lxc
- * Date: 2019-03-18
- *
- * @author lxc
- */
+ * @program: cl-news
+ * @description:
+ * @analysis:
+ * @author: 李学亮    email: 18222027300@163.com
+ * @create: 2019-03-19 14:13
+ **/
 @RestController
 @RequestMapping("/news")
 public class NewsController {
 
+    /**
+     * @description: TODO：logger 有什么作用
+     */
     private static final Logger logger = LoggerFactory.getLogger(NewsController.class);
 
     @Autowired
@@ -38,6 +41,4 @@ public class NewsController {
         ret.put("news", "toutiao");
         return ret;
     }
-
-
 }

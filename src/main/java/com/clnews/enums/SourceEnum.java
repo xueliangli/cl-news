@@ -1,14 +1,16 @@
 package com.clnews.enums;
 
 /**
- * Created with cl-news
- * Created By lxc
- * Date: 2019-03-18
- *
- * @author lxc
- */
+ * @program: cl-news
+ * @description:
+ * @analysis:
+ * @author: 李学亮    email: 18222027300@163.com
+ * @create: 2019-03-19 14:36
+ **/
 public enum SourceEnum {
-
+    /**
+     * @description: 头条作为源
+     */
     TOU_TIAO("TOU_TIAO", "今日头条");
 
     public final String key;

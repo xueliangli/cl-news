@@ -1,4 +1,4 @@
-package com.clnews;
+package com.clnews.clnews;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,7 +11,6 @@ public class ClNewsApplicationTests {
 
     @Test
     public void contextLoads() {
-        System.out.println("hello");
     }
 
 }
