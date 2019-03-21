@@ -2,6 +2,7 @@ package com.clnews.controller;
 
 import com.clnews.processor.ToutiaoNewsPuller;
 import com.clnews.service.NewsService;
+import com.clnews.service.SohuNewsService;
 import com.google.common.collect.Maps;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +32,8 @@ public class NewsController {
 
     @Autowired
     private NewsService newsService;
-
+    @Autowired
+    private SohuNewsService sohuNewsService;
 
     @RequestMapping("/toutiao")
     @ResponseStatus(HttpStatus.OK)
@@ -39,6 +41,15 @@ public class NewsController {
         Map ret = Maps.newHashMap();
         newsService.pullNews();
         ret.put("news", "toutiao");
+        return ret;
+    }
+
+    @RequestMapping("/souhu")
+    @ResponseStatus(HttpStatus.OK)
+    public Object souhuNews() {
+        Map ret = Maps.newHashMap();
+        sohuNewsService.pullNews();
+        ret.put("news", "souhu");
         return ret;
     }
 }

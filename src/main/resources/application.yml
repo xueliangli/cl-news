@@ -22,3 +22,6 @@ news:
     main_url: https://www.toutiao.com
     # 头条热点新闻地址
     news_hot_url: https://www.toutiao.com/ch/news_hot/
+  sohu:
+      url: https://www.sohu.com/
+

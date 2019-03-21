@@ -108,8 +108,9 @@ public class ToutiaoNewsPuller extends NewsPuller {
             //4、通过正则表达式对 script 标签进行解析
             Elements scripts = contentHtml.getElementsByTag(ELEMENTS_SCRIPT);
             scripts.forEach(script -> {
-                String regex = "articleInfo: \\{\\s*[\\n\\r]*\\s*title: '.*',\\s*[\\n\\r]*\\s*content: '(.*)',";
-                Pattern pattern = Pattern.compile(regex);
+                //正则表达式匹配页面标签
+                String regex1 = "articleInfo: \\{\\s*[\\n\\r]*\\s*title: '.*',\\s*[\\n\\r]*\\s*content: '(.*)',";
+                Pattern pattern = Pattern.compile(regex1);
                 Matcher matcher = pattern.matcher(script.toString());
                 if (matcher.find()) {
                     String content = matcher.group(1)
@@ -117,6 +118,9 @@ public class ToutiaoNewsPuller extends NewsPuller {
                             .replace(">", ">")
                             .replace("\"", "\"")
                             .replace("=", "=");
+                    //去除非中文字符
+//                    String regex2 = "[^\\u4e00-\\u9fa5]";
+//                    content = content.replaceAll(regex2  , "");
                     logger.info("【今日头条】 内容: {}", content);
                     news.setContent(content);
                 }

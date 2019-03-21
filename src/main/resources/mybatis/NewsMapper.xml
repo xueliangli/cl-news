@@ -14,7 +14,7 @@
         <result column="update_date" property="updateDate" jdbcType="TIMESTAMP"/>
     </resultMap>
 
-    <sql id="Base_Column_List">id, source, source_name, title, content, content_url, image_url, create_date,
+    <sql id="Base_Column_List">id source, source_name, title, content, content_url, image_url, create_date,
                                    update_date</sql>
 
     <insert id="insertSelective" parameterType="com.clnews.domain.News">

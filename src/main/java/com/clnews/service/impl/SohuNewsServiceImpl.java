@@ -3,12 +3,12 @@ package com.clnews.service.impl;
 import com.clnews.constant.Constant;
 import com.clnews.dao.NewsMapper;
 import com.clnews.domain.News;
-import com.clnews.processor.ToutiaoNewsPuller;
-import com.clnews.service.NewsService;
+import com.clnews.processor.SohuNewsPuller;
+import com.clnews.service.SohuNewsService;
 import com.google.common.collect.Lists;
-import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,12 +16,14 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 /**
- * 使用该注解 spring 可以将此类扫描为服务
- *
- * @author 李学亮
- */
+ * @program: cl-news
+ * @description:
+ * @analysis:
+ * @author: 李学亮    email: 18222027300@163.com
+ * @create: 2019-03-21 19:01
+ **/
 @Service
-public class NewsServiceImpl implements NewsService {
+public class SohuNewsServiceImpl implements SohuNewsService {
 
     private static final Logger logger = LoggerFactory.getLogger(NewsServiceImpl.class);
 
@@ -29,7 +31,7 @@ public class NewsServiceImpl implements NewsService {
     private NewsMapper newsMapper;
 
     @Autowired
-    private ToutiaoNewsPuller toutiaoNewsPuller;
+    private SohuNewsPuller sohuNewsPuller;
 
 
 
@@ -50,7 +52,7 @@ public class NewsServiceImpl implements NewsService {
     @Override
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void pullNews() {
-        List<News> newsList = toutiaoNewsPuller.pullNews();
+        List<News> newsList = sohuNewsPuller.pullNews();
         if (null == newsList || newsList.isEmpty()) {
             logger.info("【今日头条】拉取内容为空不需要插入!");
             return;
@@ -61,3 +63,4 @@ public class NewsServiceImpl implements NewsService {
     }
 
 }
+
