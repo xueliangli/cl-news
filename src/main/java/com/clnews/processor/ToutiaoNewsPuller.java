@@ -118,9 +118,6 @@ public class ToutiaoNewsPuller extends NewsPuller {
                             .replace(">", ">")
                             .replace("\"", "\"")
                             .replace("=", "=");
-                    //去除非中文字符
-//                    String regex2 = "[^\\u4e00-\\u9fa5]";
-//                    content = content.replaceAll(regex2  , "");
                     logger.info("【今日头条】 内容: {}", content);
                     news.setContent(content);
                 }

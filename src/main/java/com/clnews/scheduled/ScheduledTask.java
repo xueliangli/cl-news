@@ -12,14 +12,13 @@ import org.springframework.stereotype.Component;
  * @author: 李学亮    email: 18222027300@163.com
  * @create: 2019-03-19 14:39
  **/
-//@Component
+@Component
 public class ScheduledTask {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private NewsService newsService;
-
 
     @Scheduled(cron = "* * 0/1 * * ?")
     public void logTime() {

@@ -11,7 +11,7 @@ public enum SourceEnum {
     /**
      * @description: 头条作为源
      */
-    TOU_TIAO("TOU_TIAO", "今日头条"), SOU_HU("SOU_HU", "搜狐");
+    TOU_TIAO("TOU_TIAO", "今日头条"), SO_HU("SO_HU", "搜狐");
 
     public final String key;
 

@@ -2,7 +2,6 @@ package com.clnews.processor;
 
 import com.clnews.domain.News;
 import com.clnews.enums.SourceEnum;
-import com.clnews.service.SohuNewsService;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.nodes.Document;
@@ -10,7 +9,6 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -33,12 +31,10 @@ public class SohuNewsPuller extends NewsPuller {
     private static final Logger logger = LoggerFactory.getLogger(SohuNewsPuller.class);
     @Value("${news.sohu.url}")
     private String url;
-    @Autowired
-    private SohuNewsService newsService;
 
     @Override
     public List<News> pullNews() {
-        logger.info("开始拉取搜狐新闻！");
+        logger.info("【搜狐网】开始拉取搜狐新闻！");
         // 1.获取首页
         Document html;
         try {
@@ -63,8 +59,8 @@ public class SohuNewsPuller extends NewsPuller {
             String image = StringUtils.isNotBlank(element.select(HTML_IMG).attr(HTML_SRC))
                     ? HTTPS_PREFIX + element.select(HTML_IMG).attr(HTML_SRC) : element.select(HTML_IMG).attr(HTML_SRC);
             News n = new News();
-            n.setSource(SourceEnum.SOU_HU.key);
-            n.setSourceName(SourceEnum.SOU_HU.name);
+            n.setSource(SourceEnum.SO_HU.key);
+            n.setSourceName(SourceEnum.SO_HU.name);
             n.setTitle(title);
             n.setContentUrl(href);
             n.setImageUrl(image);
@@ -74,10 +70,9 @@ public class SohuNewsPuller extends NewsPuller {
         }
         // 4.根据新闻url访问新闻，获取新闻内容
         newsSet.forEach(news -> {
-            logger.info("开始抽取搜狐新闻内容：{}", news.getTitle());
+            logger.info("【搜狐网】开始抽取搜狐新闻内容：{}", news.getTitle());
             Document newsHtml = null;
             try {
-//                newsHtml = getHtmlFromUrl(news.getUrl(), false);
                 newsHtml = getHtmlFromUrl(news.getContentUrl(), true);
                 Element newsContent = newsHtml.select("div#article-container")
                         .select("div.main")
@@ -85,15 +80,12 @@ public class SohuNewsPuller extends NewsPuller {
                         .first();
                 String title = newsContent.select("div.text-title").select("h1").text();
                 String content = newsContent.select("article.article").first().toString();
-//                String image = NewsUtils.getImageFromContent(content);
 
                 news.setTitle(title);
                 news.setContent(content);
-//                news.setImage(image);
-                newsService.insertSelective(news);
-                logger.info("抽取搜狐新闻《{}》成功！", news.getTitle());
+                logger.info("【搜狐网】抽取搜狐新闻《{}》成功！", news.getTitle());
             } catch (Exception e) {
-                logger.error("新闻抽取失败:{}", news.getTitle());
+                logger.error("【搜狐网】新闻抽取失败:{}", news.getTitle());
                 e.printStackTrace();
             }
         });

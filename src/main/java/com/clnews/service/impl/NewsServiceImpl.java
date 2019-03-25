@@ -3,6 +3,8 @@ package com.clnews.service.impl;
 import com.clnews.constant.Constant;
 import com.clnews.dao.NewsMapper;
 import com.clnews.domain.News;
+import com.clnews.enums.SourceEnum;
+import com.clnews.processor.SohuNewsPuller;
 import com.clnews.processor.ToutiaoNewsPuller;
 import com.clnews.service.NewsService;
 import com.google.common.collect.Lists;
@@ -14,6 +16,8 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 使用该注解 spring 可以将此类扫描为服务
@@ -28,10 +32,41 @@ public class NewsServiceImpl implements NewsService {
     @Autowired
     private NewsMapper newsMapper;
 
+    /**
+     * @description: 注入头条和搜狐的拉取器
+     */
     @Autowired
     private ToutiaoNewsPuller toutiaoNewsPuller;
 
+    @Autowired
+    private SohuNewsPuller sohuNewsPuller;
 
+//    /**
+//     * 通过线程池实现搜狐网的新闻拉取
+//     */
+//    private static final ExecutorService executorService = Executors.newFixedThreadPool(5);
+
+    /**
+     * @description: 线程工厂，需要对线程做一些修饰的时候使用，比如修改线程名称
+     */
+    static class TestThreadFactory implements ThreadFactory {
+
+        @Override
+        public Thread newThread(Runnable r) {
+            Thread t = new Thread(r);
+            t.setName("----- 拉取新闻的线程 ------ " + Thread.currentThread().getId());
+            return t;
+        }
+    }
+
+    private TestThreadFactory testThreadFactory = new TestThreadFactory();
+    private ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(3,
+            10,
+            1,
+            TimeUnit.MINUTES,
+            new ArrayBlockingQueue<>(
+                    1),
+            testThreadFactory);
 
     @Override
     public int insertSelective(News record) {
@@ -50,14 +85,58 @@ public class NewsServiceImpl implements NewsService {
     @Override
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public void pullNews() {
-        List<News> newsList = toutiaoNewsPuller.pullNews();
-        if (null == newsList || newsList.isEmpty()) {
-            logger.info("【今日头条】拉取内容为空不需要插入!");
-            return;
-        }
-        for (News news : newsList) {
-            newsMapper.insertSelective(news);
+
+
+        for (final SourceEnum sourceEnum : SourceEnum.values()) {
+            if (sourceEnum.key.equalsIgnoreCase(SourceEnum.TOU_TIAO.key)) {
+                threadPoolExecutor.submit(new TtPullTask(sourceEnum));
+            }
+            if (sourceEnum.key.equalsIgnoreCase(SourceEnum.SO_HU.key)) {
+                threadPoolExecutor.submit(new ShPullTask(sourceEnum));
+            }
         }
     }
 
+    public class TtPullTask implements Runnable {
+
+        private SourceEnum sourceEnum;
+
+        TtPullTask(SourceEnum sourceEnum) {
+            this.sourceEnum = sourceEnum;
+        }
+
+        @Override
+        public void run() {
+            List<News> newsList = toutiaoNewsPuller.pullNews();
+            if (null == newsList || newsList.isEmpty()) {
+                logger.info("【{}】拉取内容为空不需要插入!", sourceEnum.name);
+                return;
+            }
+            for (News news : newsList) {
+                newsMapper.insertSelective(news);
+            }
+        }
+    }
+
+    public class ShPullTask implements Runnable {
+
+        private SourceEnum sourceEnum;
+
+        ShPullTask(SourceEnum sourceEnum) {
+            this.sourceEnum = sourceEnum;
+        }
+
+        @Override
+        public void run() {
+            // TODO: 2019-03-22 添加你写的搜狐的拉取器
+            List<News> newsList = sohuNewsPuller.pullNews();
+            if (null == newsList || newsList.isEmpty()) {
+                logger.info("【{}】拉取内容为空不需要插入!", sourceEnum.name);
+                return;
+            }
+            for (News news : newsList) {
+                newsMapper.insertSelective(news);
+            }
+        }
+    }
 }
