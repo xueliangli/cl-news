@@ -2,6 +2,7 @@ package com.clnews.processor;
 
 import com.clnews.domain.News;
 import com.clnews.enums.SourceEnum;
+import com.gargoylesoftware.htmlunit.WebClient;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.nodes.Document;
@@ -31,7 +32,6 @@ public class SohuNewsPuller extends NewsPuller {
     private static final Logger logger = LoggerFactory.getLogger(SohuNewsPuller.class);
     @Value("${news.sohu.url}")
     private String url;
-
     @Override
     public List<News> pullNews() {
         logger.info("【搜狐网】开始拉取搜狐新闻！");

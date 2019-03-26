@@ -48,8 +48,6 @@ public abstract class NewsPuller {
             webClient.getOptions().setThrowExceptionOnFailingStatusCode(false);
             webClient.getOptions().setTimeout(TIME_OUT);
             try {
-                //解决站点不信任
-                SslUtils.ignoreSsl();
                 HtmlPage htmlPage = webClient.getPage(url);
                 webClient.waitForBackgroundJavaScript(TIME_OUT);
                 String htmlString = htmlPage.asXml();

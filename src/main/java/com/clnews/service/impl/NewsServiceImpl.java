@@ -41,32 +41,29 @@ public class NewsServiceImpl implements NewsService {
     @Autowired
     private SohuNewsPuller sohuNewsPuller;
 
-//    /**
-//     * 通过线程池实现搜狐网的新闻拉取
+    //    /**
+//     * @description: 线程工厂，需要对线程做一些修饰的时候使用，比如修改线程名称
 //     */
-//    private static final ExecutorService executorService = Executors.newFixedThreadPool(5);
-
-    /**
-     * @description: 线程工厂，需要对线程做一些修饰的时候使用，比如修改线程名称
-     */
-    static class TestThreadFactory implements ThreadFactory {
-
-        @Override
-        public Thread newThread(Runnable r) {
-            Thread t = new Thread(r);
-            t.setName("----- 拉取新闻的线程 ------ " + Thread.currentThread().getId());
-            return t;
-        }
-    }
-
-    private TestThreadFactory testThreadFactory = new TestThreadFactory();
-    private ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(3,
-            10,
-            1,
-            TimeUnit.MINUTES,
-            new ArrayBlockingQueue<>(
-                    1),
-            testThreadFactory);
+//    static class TestThreadFactory implements ThreadFactory {
+//        private AtomicInteger threadNum = new AtomicInteger(0);
+//
+//        @Override
+//        public Thread newThread(Runnable r) {
+//            Thread t = new Thread(r);
+//            t.setName("----- 拉取新闻的线程 ------ " + threadNum.incrementAndGet());
+//            return t;
+//        }
+//    }
+//
+//    private TestThreadFactory testThreadFactory = new TestThreadFactory();
+//    private ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(3,
+//            10,
+//            5,
+//            TimeUnit.SECONDS,
+//            new ArrayBlockingQueue<>(
+//                    1),
+//            testThreadFactory);
+    private static final ExecutorService executorService = Executors.newFixedThreadPool(5);
 
     @Override
     public int insertSelective(News record) {
@@ -89,10 +86,10 @@ public class NewsServiceImpl implements NewsService {
 
         for (final SourceEnum sourceEnum : SourceEnum.values()) {
             if (sourceEnum.key.equalsIgnoreCase(SourceEnum.TOU_TIAO.key)) {
-                threadPoolExecutor.submit(new TtPullTask(sourceEnum));
+                executorService.submit(new TtPullTask(sourceEnum));
             }
             if (sourceEnum.key.equalsIgnoreCase(SourceEnum.SO_HU.key)) {
-                threadPoolExecutor.submit(new ShPullTask(sourceEnum));
+                executorService.submit(new ShPullTask(sourceEnum));
             }
         }
     }
