@@ -4,6 +4,8 @@ import com.clnews.constant.Constant;
 import com.clnews.dao.NewsMapper;
 import com.clnews.domain.News;
 import com.clnews.enums.SourceEnum;
+import com.clnews.processor.IfengNewsPuller;
+import com.clnews.processor.NetEasyNewsPuller;
 import com.clnews.processor.SohuNewsPuller;
 import com.clnews.processor.ToutiaoNewsPuller;
 import com.clnews.service.NewsService;
@@ -16,8 +18,8 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.concurrent.*;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * 使用该注解 spring 可以将此类扫描为服务
@@ -41,6 +43,11 @@ public class NewsServiceImpl implements NewsService {
     @Autowired
     private SohuNewsPuller sohuNewsPuller;
 
+    @Autowired
+    private IfengNewsPuller ifengNewsPuller;
+
+    @Autowired
+    private NetEasyNewsPuller netEasyNewsPuller;
     //    /**
 //     * @description: 线程工厂，需要对线程做一些修饰的时候使用，比如修改线程名称
 //     */
@@ -63,7 +70,7 @@ public class NewsServiceImpl implements NewsService {
 //            new ArrayBlockingQueue<>(
 //                    1),
 //            testThreadFactory);
-    private static final ExecutorService executorService = Executors.newFixedThreadPool(5);
+    private static final ExecutorService executorService = Executors.newFixedThreadPool(4);
 
     @Override
     public int insertSelective(News record) {
@@ -90,6 +97,12 @@ public class NewsServiceImpl implements NewsService {
             }
             if (sourceEnum.key.equalsIgnoreCase(SourceEnum.SO_HU.key)) {
                 executorService.submit(new ShPullTask(sourceEnum));
+            }
+            if (sourceEnum.key.equalsIgnoreCase(SourceEnum.WANG_YI.key)) {
+                executorService.submit(new WyPullTask(sourceEnum));
+            }
+            if (sourceEnum.key.equalsIgnoreCase(SourceEnum.FENG_HUANG.key)) {
+                executorService.submit(new IfPullTask(sourceEnum));
             }
         }
     }
@@ -127,6 +140,48 @@ public class NewsServiceImpl implements NewsService {
         public void run() {
             // TODO: 2019-03-22 添加你写的搜狐的拉取器
             List<News> newsList = sohuNewsPuller.pullNews();
+            if (null == newsList || newsList.isEmpty()) {
+                logger.info("【{}】拉取内容为空不需要插入!", sourceEnum.name);
+                return;
+            }
+            for (News news : newsList) {
+                newsMapper.insertSelective(news);
+            }
+        }
+    }
+
+    public class WyPullTask implements Runnable {
+
+        private SourceEnum sourceEnum;
+
+        WyPullTask(SourceEnum sourceEnum) {
+            this.sourceEnum = sourceEnum;
+        }
+
+        @Override
+        public void run() {
+            List<News> newsList = netEasyNewsPuller.pullNews();
+            if (null == newsList || newsList.isEmpty()) {
+                logger.info("【{}】拉取内容为空不需要插入!", sourceEnum.name);
+                return;
+            }
+            for (News news : newsList) {
+                newsMapper.insertSelective(news);
+            }
+        }
+    }
+
+    public class IfPullTask implements Runnable {
+
+        private SourceEnum sourceEnum;
+
+        IfPullTask(SourceEnum sourceEnum) {
+            this.sourceEnum = sourceEnum;
+        }
+
+        @Override
+        public void run() {
+            List<News> newsList = ifengNewsPuller.pullNews();
             if (null == newsList || newsList.isEmpty()) {
                 logger.info("【{}】拉取内容为空不需要插入!", sourceEnum.name);
                 return;

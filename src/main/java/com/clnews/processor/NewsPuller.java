@@ -1,7 +1,6 @@
 package com.clnews.processor;
 
 import com.clnews.domain.News;
-import com.clnews.utils.SslUtils;
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;

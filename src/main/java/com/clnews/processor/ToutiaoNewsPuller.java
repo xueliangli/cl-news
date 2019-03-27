@@ -109,8 +109,8 @@ public class ToutiaoNewsPuller extends NewsPuller {
             Elements scripts = contentHtml.getElementsByTag(ELEMENTS_SCRIPT);
             scripts.forEach(script -> {
                 //正则表达式匹配页面标签
-                String regex1 = "articleInfo: \\{\\s*[\\n\\r]*\\s*title: '.*',\\s*[\\n\\r]*\\s*content: '(.*)',";
-                Pattern pattern = Pattern.compile(regex1);
+                String regex = "articleInfo: \\{\\s*[\\n\\r]*\\s*title: '.*',\\s*[\\n\\r]*\\s*content: '(.*)',";
+                Pattern pattern = Pattern.compile(regex);
                 Matcher matcher = pattern.matcher(script.toString());
                 if (matcher.find()) {
                     String content = matcher.group(1)

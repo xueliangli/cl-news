@@ -24,4 +24,8 @@ news:
     news_hot_url: https://www.toutiao.com/ch/news_hot/
   sohu:
       url: https://www.sohu.com/
+  ifeng:
+      url: http://www.ifeng.com/
+  neteasy:
+      url: https://news.163.com/
 
