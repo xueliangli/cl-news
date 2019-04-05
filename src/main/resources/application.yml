@@ -13,6 +13,7 @@ spring:
     max-wait: 10000
     url: jdbc:mysql://39.105.124.48:3306/clnews?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8
 
+
 mybatis:
   mapper-locations: classpath:mybatis/*.xml
 
@@ -28,4 +29,9 @@ news:
       url: http://www.ifeng.com/
   neteasy:
       url: https://news.163.com/
+
+favorites:
+    base:
+        path: http://127.0.0.1:8080/
+
 

@@ -2,7 +2,6 @@ package com.clnews.processor;
 
 import com.clnews.domain.News;
 import com.clnews.enums.SourceEnum;
-import com.clnews.utils.SslUtils;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.apache.commons.lang3.StringUtils;
@@ -97,8 +96,6 @@ public class ToutiaoNewsPuller extends NewsPuller {
             logger.info("【今日头条】===================={}====================", news.getTitle());
             Document contentHtml;
             try {
-                //解决站点不信任
-                SslUtils.ignoreSsl();
                 contentHtml = getHtmlFromUrl(news.getContentUrl(), true);
             } catch (Exception e) {
                 logger.error("【今日头条】获取新闻《{}》内容失败！", news.getTitle());

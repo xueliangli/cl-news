@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="description" content="朝亮新闻 | 认识世界 |收藏夹 |网络收藏夹"/>
+    <meta name="author" content=""/>
+    <!--定时刷新页面-->
+    <!--<meta http-equiv="refresh" content="6;url=/lookAround" />-->
+
+    <title>朝亮新闻 | 世界尽在眼中</title>
+    <link rel="icon" href="img/icon.ico" type="image/x-icon"/>
+    <!-- Bootstrap Core CSS -->
+    <link href="index/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+
+    <!-- Theme CSS -->
+    <link href="index/css/freelancer.min.css" rel="stylesheet"/>
+
+    <!-- Custom Fonts -->
+    <link href="index/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+
+    <style>
+        #portfolio .portfolio-item .portfolio-link .caption .caption-content {
+            top: 36%;
+        }
+
+        #portfolio .portfolio-item .portfolio-link .caption .caption-content p {
+            font-size: 16px;
+            line-height: 24px;
+            margin: 24px 16px 0;
+        }
+
+        #portfolio .portfolio-item .portfolio-link {
+            height: 260px;
+            overflow: hidden;
+        }
+
+        #portfolio .portfolio-item:nth-child(1) .portfolio-link {
+            background: #ba4c63;
+        }
+
+        #portfolio .portfolio-item:nth-child(2) .portfolio-link {
+            background: #1fa4b6;
+        }
+
+        #portfolio .portfolio-item:nth-child(3) .portfolio-link {
+            background: #f8a3a3;
+        }
+
+        #portfolio .portfolio-item:nth-child(4) .portfolio-link {
+            background: #1d83c1;
+        }
+
+        #portfolio .portfolio-item:nth-child(5) .portfolio-link {
+            background: #18bc9c;
+        }
+
+        #portfolio .portfolio-item:nth-child(6) .portfolio-link {
+            background: #ccb2a3;
+        }
+
+        #portfolio .portfolio-item .portfolio-link .img-responsive {
+            width: 180px;
+            height: 180px;
+            display: block;
+            border-radius: 50%;
+            margin: 40px auto;
+        }
+    </style>
+
+
+</head>
+
+<body id="page-top" class="index">
+
+<!-- Navigation -->
+<nav id="mainNav" class="navbar navbar-default navbar-fixed-top navbar-custom">
+    <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
+            </button>
+            <a class="navbar-brand" href="#page-top">朝亮新闻</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="/lookAround">look look</a>
+                </li>
+                <li>
+                    <a href="/login" th:unless="${user != null}">login</a>
+                    <a href="/" th:if="${user != null}" th:text="${user.userName}" class="userName"></a>
+                </li>
+                <li class="hidden">
+                    <a href="#page-top"></a>
+                </li>
+
+
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container-fluid -->
+</nav>
+
+<!-- Header -->
+<header>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <img class="img-responsive" src="index/img/profile.png" alt=""/>
+                <div class="intro-text">
+                    <span class="name">朝亮新闻</span>
+                    <hr class="star-light"/>
+                    <span class="skills">认识世界，感受彼此,哈哈</span><br/>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<!-- Portfolio Grid Section -->
+<section id="portfolio">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2>新闻来源</h2>
+                <hr class="star-primary"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4 portfolio-item">
+                <a href="/lookAround" class="portfolio-link" data-toggle="modal">
+                    <div class="caption">
+                        <div class="caption-content">
+                            <i class="fa fa-search-plus fa-3x"></i>
+                            <p>今日头条</p>
+                        </div>
+                    </div>
+                    <img src="index/img/portfolio/cabin.png" class="img-responsive" alt=""/>
+                </a>
+            </div>
+            <div class="col-sm-4 portfolio-item">
+                <a href="/lookAround" class="portfolio-link" data-toggle="modal">
+                    <div class="caption">
+                        <div class="caption-content">
+                            <i class="fa fa-search-plus fa-3x"></i>
+                            <p>搜狐网</p>
+                        </div>
+                    </div>
+                    <img src="index/img/portfolio/cake.png" class="img-responsive" alt=""/>
+                </a>
+            </div>
+            <div class="col-sm-4 portfolio-item">
+                <a href="/lookAround" class="portfolio-link" data-toggle="modal">
+                    <div class="caption">
+                        <div class="caption-content">
+                            <i class="fa fa-search-plus fa-3x"></i>
+                            <p>凤凰网</p>
+                        </div>
+                    </div>
+                    <img src="index/img/portfolio/circus.png" class="img-responsive" alt=""/>
+                </a>
+            </div>
+            <div class="col-sm-4 portfolio-item">
+                <a href="/lookAround" class="portfolio-link" data-toggle="modal">
+                    <div class="caption">
+                        <div class="caption-content">
+                            <i class="fa fa-search-plus fa-3x"></i>
+                            <p>空白</p>
+                        </div>
+                    </div>
+                    <img src="index/img/portfolio/game.png" class="img-responsive" alt=""/>
+                </a>
+            </div>
+            <div class="col-sm-4 portfolio-item">
+                <a href="/lookAround" class="portfolio-link" data-toggle="modal">
+                    <div class="caption">
+                        <div class="caption-content">
+                            <i class="fa fa-search-plus fa-3x"></i>
+                            <p>空白</p>
+                        </div>
+                    </div>
+                    <img src="index/img/portfolio/safe.png" class="img-responsive" alt=""/>
+                </a>
+            </div>
+            <div class="col-sm-4 portfolio-item">
+                <a href="/lookAround" class="portfolio-link" data-toggle="modal">
+                    <div class="caption">
+                        <div class="caption-content">
+                            <i class="fa fa-search-plus fa-3x"></i>
+                            <p>空白</p>
+                        </div>
+                    </div>
+                    <img src="index/img/portfolio/submarine.png" class="img-responsive" alt=""/>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- About Section -->
+<section class="success" id="about">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2>about me</h2>
+                <hr class="star-light"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-lg-offset-2">
+                <p>学生
+                    <br/>很好
+                    <br/>开始
+                    <br/>学习
+                </p>
+            </div>
+            <div class="col-lg-4">
+                <p>老哥
+                    <br/>帮助
+                    <br/>感谢
+                    <br/>进步
+                </p>
+            </div>
+            <div class="col-lg-8 col-lg-offset-2 text-center">
+                <a href="https://github.com/cloudfavorites" class="btn btn-lg btn-outline">
+                    <i class="fa fa-download"></i> GITHUB--源码
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--Contact Section -->
+<section id="contact">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2>联系我们</h2>
+                <hr class="star-primary"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+                <br/><br/><br/>
+
+                <p> 朝亮新闻是一个使用 Spring Boot 构建的开源网站，利用爬虫取得信息
+                </p>
+                <p>
+                    <strong>核心功能点：</strong>
+                    <br/> -
+                    <br/> -
+                    <br/> -
+                    <br/> -
+                    <br/> -
+                    <br/> -
+                </p>
+                <p>
+                    你有两种方式可以找到我们：<br/><br/>
+                    1、发邮件到这里
+                    <a href="mailto:cloudfavorites@126.com">
+                        18222027300@163.com
+                    </a>
+                    <br/>
+                    2、github上面
+                    <a href="空白">
+                        关注我们
+                    </a>
+                    <br/>
+                    3、如果您觉得还有完善的地方，<a href="/feedback">请给我们提建议！</a>
+                </p>
+                <p>
+                    如果你有兴趣我们可以一起来做，欢迎联系我！
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="text-center">
+    <div class="footer-above">
+        <div class="container">
+            <div class="row">
+                <div class="footer-col col-md-4">
+                    <h3>位置</h3>
+                    <p>中国，北京</p>
+                </div>
+                <div class="footer-col col-md-4">
+                    <h3>联系我们</h3>
+                    <ul class="list-inline">
+                        <li>
+                            <img src="空白" style="width: 60%;"/>
+                        </li>
+                    </ul>
+                </div>
+                <div class="footer-col col-md-4">
+                    <h3>关于网站</h3>
+                    <p>信息集散</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-below">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    Copyright &copy; favorites 2019-
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Scroll to Top Button (Only visible on small and extra-small screen sizes) -->
+<div class="scroll-top page-scroll hidden-sm hidden-xs hidden-lg hidden-md">
+    <a class="btn btn-primary" href="#page-top">
+        <i class="fa fa-chevron-up"></i>
+    </a>
+</div>
+
+<!-- jQuery -->
+<script src="index/vendor/jquery/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="index/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+<!-- Plugin JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+
+<!-- Contact Form JavaScript -->
+<script src="index/js/jqBootstrapValidation.js"></script>
+<script src="index/js/contact_me.js"></script>
+
+<!-- Theme JavaScript -->
+<script src="index/js/freelancer.min.js"></script>
+<div style="display:none">
+    <script type="text/javascript">var cnzz_protocol = (("https:" === document.location.protocol) ? " https://" : " http://");
+    document.write(unescape("%3Cspan id='cnzz_stat_icon_1260466344'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1260466344' type='text/javascript'%3E%3C/script%3E"));</script>
+</div>
+
+</body>
+
+</html>

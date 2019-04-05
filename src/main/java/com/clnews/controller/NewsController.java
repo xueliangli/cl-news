@@ -20,7 +20,7 @@ import java.util.Map;
  * @create: 2019-03-19 14:13
  **/
 @RestController
-@RequestMapping("/news")
+@RequestMapping("/toutiao")
 public class NewsController {
 
     /**
@@ -31,7 +31,7 @@ public class NewsController {
     @Autowired
     private NewsService newsService;
 
-    @RequestMapping("/toutiao")
+
     @ResponseStatus(HttpStatus.OK)
     public Object toutiaoNews() {
         Map ret = Maps.newHashMap();
